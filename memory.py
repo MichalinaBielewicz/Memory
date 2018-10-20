@@ -7,64 +7,64 @@ button_switch = True
 
 
 def close_window(wygrana):
-   master.destroy()
-   wygrana.destroy()
-
+  master.destroy()
+  wygrana.destroy()
 
 lista = [0]
+przyciski_do_wyczyszczenia = []
 
 def click(b1, b2, b3, b4, b5, b6, b7, b8, txt,lista, id):
-   lista.append(id)
-   if lista[len(lista)-2] == 1:
-       poprzedni=b1
-   elif lista[len(lista)-2] == 2:
-       poprzedni=b2
-   elif lista[len(lista) - 2] == 3:
-       poprzedni = b3
-   elif lista[len(lista) - 2] == 4:
-       poprzedni = b4
-   elif lista[len(lista) - 2] == 5:
-       poprzedni = b5
-   elif lista[len(lista) - 2] == 6:
-       poprzedni = b6
-   elif lista[len(lista) - 2] == 7:
-       poprzedni = b7
-   elif lista[len(lista) - 2] == 8:
-       poprzedni = b8
+  lista.append(id)
+  if lista[len(lista)-2] == 1:
+      poprzedni=b1
+  elif lista[len(lista)-2] == 2:
+      poprzedni=b2
+  elif lista[len(lista) - 2] == 3:
+      poprzedni = b3
+  elif lista[len(lista) - 2] == 4:
+      poprzedni = b4
+  elif lista[len(lista) - 2] == 5:
+      poprzedni = b5
+  elif lista[len(lista) - 2] == 6:
+      poprzedni = b6
+  elif lista[len(lista) - 2] == 7:
+      poprzedni = b7
+  elif lista[len(lista) - 2] == 8:
+      poprzedni = b8
 
-   if lista[len(lista)-1]==1:
-       aktualny=b1
-   elif lista[len(lista)-1]==2:
-       aktualny=b2
-   elif lista[len(lista)-1] == 3:
-       aktualny = b3
-   elif lista[len(lista)-1] == 4:
-       aktualny = b4
-   elif lista[len(lista)-1] == 5:
-       aktualny = b5
-   elif lista[len(lista)-1] == 6:
-       aktualny = b6
-   elif lista[len(lista)-1] == 7:
-       aktualny = b7
-   elif lista[len(lista)-1] == 8:
-       aktualny = b8
+  if lista[len(lista)-1]==1:
+      aktualny=b1
+  elif lista[len(lista)-1]==2:
+      aktualny=b2
+  elif lista[len(lista)-1] == 3:
+      aktualny = b3
+  elif lista[len(lista)-1] == 4:
+      aktualny = b4
+  elif lista[len(lista)-1] == 5:
+      aktualny = b5
+  elif lista[len(lista)-1] == 6:
+      aktualny = b6
+  elif lista[len(lista)-1] == 7:
+      aktualny = b7
+  elif lista[len(lista)-1] == 8:
+      aktualny = b8
 
-   aktualny["text"] = txt
+  aktualny["text"] = txt
 
-   if lista[len(lista)-2] != 0 and poprzedni["text"] != " " and poprzedni["state"] != DISABLED:
-       if aktualny["text"] == poprzedni["text"] and aktualny != poprzedni:
-           aktualny["state"] = DISABLED
-           aktualny["background"] = "lightgray"
-           poprzedni["state"] = DISABLED
-           poprzedni["background"] = "lightgray"
-       elif aktualny["text"] != poprzedni["text"]:
-           aktualny["text"] = " "
-           poprzedni["text"] = " "
+  if lista[len(lista)-2] != 0 and poprzedni["text"] != " " and poprzedni["state"] != DISABLED:
+      if aktualny["text"] == poprzedni["text"] and aktualny != poprzedni:
+          aktualny["state"] = DISABLED
+          aktualny["background"] = "lightgray"
+          poprzedni["state"] = DISABLED
+          poprzedni["background"] = "lightgray"
+      elif aktualny["text"] != poprzedni["text"]:
+          przyciski_do_wyczyszczenia.append(aktualny)
+          przyciski_do_wyczyszczenia.append(poprzedni)
 
-   if b1["state"] == DISABLED and b2["state"] == DISABLED and b3["state"] == DISABLED and b4["state"] == DISABLED and b5["state"] == DISABLED and b6["state"] == DISABLED and b7["state"] == DISABLED and b8["state"] == DISABLED:
-       wygrana = Tk()
-       button = Button(wygrana, text="BRAWO", background="yellow", command=lambda: close_window(wygrana))
-       button.pack()
+  if b1["state"] == DISABLED and b2["state"] == DISABLED and b3["state"] == DISABLED and b4["state"] == DISABLED and b5["state"] == DISABLED and b6["state"] == DISABLED and b7["state"] == DISABLED and b8["state"] == DISABLED:
+      wygrana = Tk()
+      button = Button(wygrana, text="BRAWO", background="yellow", command=lambda: close_window(wygrana))
+      button.pack()
 
 
 #losowanie pozycji
@@ -88,4 +88,14 @@ b7 = Button(master, text=" ", command=lambda: click(b1, b2, b3, b4, b5, b6, b7, 
 b7.grid(row=pozycja[pomocny[6]][0], column=pozycja[pomocny[6]][1])
 b8 = Button(master, text=" ", command=lambda: click(b1, b2, b3, b4, b5, b6, b7, b8, "Hi", lista, 8), background="skyblue", width=8, height=5, state=NORMAL)
 b8.grid(row=pozycja[pomocny[7]][0], column=pozycja[pomocny[7]][1])
-mainloop()
+
+#poniższe trzy linijki zastępują "mainloop()", a po nich następuje kod dodatkowy
+while True:
+	master. update_idletasks ()
+	master. update ()
+
+	if przyciski_do_wyczyszczenia:
+		time.sleep(0.5)
+		for przycisk in przyciski_do_wyczyszczenia:
+			przycisk["text"]=" "
+		del przyciski_do_wyczyszczenia[:]
