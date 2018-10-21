@@ -5,7 +5,7 @@ import random
 master = Tk()
 button_switch = True
 
-
+# zamknięcie okien
 def close_window(wygrana):
   master.destroy()
   wygrana.destroy()
@@ -13,29 +13,30 @@ def close_window(wygrana):
 lista = [0]
 przyciski_do_wyczyszczenia = []
 
+# funkcja przycisków
 def click(przyciski, txt,lista, id):
-  lista.append(id)
+  lista.append(id) # lista kolejno klikniętych przycisków
   for i in range(1, len(przyciski)+1):
     if lista[len(lista)-2] == i:
-      poprzedni = przyciski[i-1]
+      poprzedni = przyciski[i-1] # zapamiętanie uprzednio klikniętego przycisku
 
   for i in range(1, len(przyciski)+1):
     if lista[len(lista)-1] == i:
-      aktualny = przyciski[i-1]
+      aktualny = przyciski[i-1] # zapamiętanie aktualnie klikniętego przycisku
 
-  aktualny["text"] = txt
+  aktualny["text"] = txt # wyświetlenie tekstu
 
   if lista[len(lista)-2] != 0 and poprzedni["text"] != " " and poprzedni["state"] != DISABLED:
-      if aktualny["text"] == poprzedni["text"] and aktualny != poprzedni:
+      if aktualny["text"] == poprzedni["text"] and aktualny != poprzedni: # odkrycie tych samych przycisków -> zamrożenie
           aktualny["state"] = DISABLED
           aktualny["background"] = "lightgray"
           poprzedni["state"] = DISABLED
           poprzedni["background"] = "lightgray"
-      elif aktualny["text"] != poprzedni["text"]:
+      elif aktualny["text"] != poprzedni["text"]: # odkrycie dwóch różnych przycisków -> zakrycie
           przyciski_do_wyczyszczenia.append(aktualny)
           przyciski_do_wyczyszczenia.append(poprzedni)
 
-  if all(x["state"] == DISABLED for x in przyciski):
+  if all(x["state"] == DISABLED for x in przyciski):  # koniec gry
     wygrana = Tk()
     button = Button(wygrana, text="BRAWO", background="yellow", command=lambda: close_window(wygrana))
     button.pack()
@@ -72,6 +73,7 @@ b11.grid(row=pozycja[pomocny[10]][0], column=pozycja[pomocny[10]][1])
 b12 = Button(master, text=" ", command=lambda: click(przyciski, "I am Kuba", lista, 12), background="skyblue", width=8, height=5, state=NORMAL)
 b12.grid(row=pozycja[pomocny[11]][0], column=pozycja[pomocny[11]][1])
 
+# tablica przycisków
 przyciski.append(b1)
 przyciski.append(b2)
 przyciski.append(b3)
